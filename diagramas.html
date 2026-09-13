@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagramas · SARA</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-inner">
+      <a class="marca" href="index.html">SARA</a>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="sistema.html">O sistema</a>
+        <a href="instalacao.html">Instalação</a>
+        <a href="diagramas.html" class="ativo">Diagramas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Diagramas</h1>
+    <p class="subtitulo">Modelagem do sistema. Clique numa imagem para abrir em tamanho real.</p>
+
+    <div class="nota">
+      Os diagramas mostram a modelagem completa do projeto. A versão atual
+      implementa o cadastro de pessoas e encontros; usuários, instituições
+      beneficentes e relatórios ainda estão por vir.
+    </div>
+
+    <h2 id="caso-de-uso">Diagrama de caso de uso</h2>
+    <p>
+      Dois atores usam o sistema: <strong>voluntários</strong> e
+      <strong>administrador</strong>. Os dois buscam instituições, cadastram e
+      buscam pessoas atendidas e registram atendimentos. Cadastrar instituições
+      beneficentes e exportar relatórios fica só com o administrador. Registrar
+      um atendimento inclui ter a pessoa atendida cadastrada.
+    </p>
+    <figure class="diagrama">
+      <a href="assets/img/diagramas/caso-de-uso.png">
+        <img src="assets/img/diagramas/caso-de-uso.png" alt="Diagrama de caso de uso do SARA"
+             onerror="this.parentElement.outerHTML='<p class=&quot;sem-imagem&quot;>Imagem ainda não adicionada: assets/img/diagramas/caso-de-uso.png</p>'">
+      </a>
+      <figcaption>Casos de uso</figcaption>
+    </figure>
+
+    <h2 id="der">DER</h2>
+    <p>
+      Quatro entidades: <code>USUARIO</code>, <code>INSTITUICAO_BENEFICENTE</code>,
+      <code>PESSOA_ATENDIDA</code> e <code>ENCONTRO</code>. O usuário gerencia
+      instituições e pessoas atendidas e realiza encontros. Cada encontro é
+      registrado para uma pessoa atendida, que pode ter vários encontros.
+    </p>
+    <figure class="diagrama">
+      <a href="assets/img/diagramas/der.png">
+        <img src="assets/img/diagramas/der.png" alt="Diagrama entidade-relacionamento do SARA"
+             onerror="this.parentElement.outerHTML='<p class=&quot;sem-imagem&quot;>Imagem ainda não adicionada: assets/img/diagramas/der.png</p>'">
+      </a>
+      <figcaption>Diagrama entidade-relacionamento</figcaption>
+    </figure>
+
+    <h2 id="classes">Diagrama de classes</h2>
+    <p>
+      As mesmas entidades vistas como classes (<code>Usuario</code>,
+      <code>InstituicaoBeneficente</code>, <code>PessoaAtendida</code> e
+      <code>Encontro</code>), com atributos e multiplicidades: um usuário cadastra
+      várias pessoas e realiza vários encontros, e uma pessoa atendida tem
+      vários encontros.
+    </p>
+    <figure class="diagrama">
+      <a href="assets/img/diagramas/classes.png">
+        <img src="assets/img/diagramas/classes.png" alt="Diagrama de classes do SARA"
+             onerror="this.parentElement.outerHTML='<p class=&quot;sem-imagem&quot;>Imagem ainda não adicionada: assets/img/diagramas/classes.png</p>'">
+      </a>
+      <figcaption>Diagrama de classes</figcaption>
+    </figure>
+  </main>
+
+  <footer>
+    Projeto de extensão · SARA
+  </footer>
+</body>
+</html>

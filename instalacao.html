@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instalação · SARA</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-inner">
+      <a class="marca" href="index.html">SARA</a>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="sistema.html">O sistema</a>
+        <a href="instalacao.html" class="ativo">Instalação</a>
+        <a href="diagramas.html">Diagramas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Instalação</h1>
+    <p class="subtitulo">Como configurar e rodar o SARA na sua máquina.</p>
+
+    <h2>Requisitos</h2>
+    <ul>
+      <li><a href="https://nodejs.org">Node.js</a> 20 ou mais recente</li>
+      <li>npm (já vem com o Node)</li>
+      <li>Uma conta no <a href="https://supabase.com">Supabase</a> (o plano gratuito serve)</li>
+      <li>Git</li>
+    </ul>
+
+    <h2>1. Clonar o projeto</h2>
+<pre><code>git clone https://github.com/danbolotaro/sara-project.git
+cd sara-project
+npm install</code></pre>
+
+    <h2>2. Criar o banco no Supabase</h2>
+    <p>
+      Crie um projeto novo no Supabase, abra o <strong>SQL Editor</strong> e rode
+      o script abaixo. Ele cria as duas tabelas usadas pelo sistema.
+    </p>
+<pre><code>create table person (
+  id          uuid primary key default gen_random_uuid(),
+  name        text not null,
+  gender      text check (gender in ('Masculino', 'Feminino')),
+  age         integer,
+  hometown    text,
+  story       text,
+  contacts    text,
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+
+create table encounter (
+  id              uuid primary key default gen_random_uuid(),
+  person_id       uuid not null references person(id) on delete cascade,
+  date            timestamptz not null,
+  location        text,
+  prayer_request  text,
+  notes           text,
+  contacts        text,
+  created_at      timestamptz not null default now(),
+  updated_at      timestamptz not null default now()
+);</code></pre>
+
+    <div class="nota">
+      O <code>on delete cascade</code> faz com que, ao excluir uma pessoa, os
+      encontros dela também sejam apagados.
+    </div>
+
+    <h2>3. Configurar as variáveis de ambiente</h2>
+    <p>
+      No Supabase, vá em <strong>Project Settings → API</strong> e copie a URL do
+      projeto e a chave <code>anon</code>. Depois crie um arquivo
+      <code>.env.local</code> na raiz do <code>sara-project</code>:
+    </p>
+<pre><code>NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua-chave-anon</code></pre>
+    <p>Esse arquivo já está no <code>.gitignore</code>, então não vai para o repositório.</p>
+
+    <h2>4. Executar</h2>
+<pre><code>npm run dev</code></pre>
+    <p>Abra <a href="http://localhost:3000">http://localhost:3000</a>. A página inicial leva direto para a lista de pessoas.</p>
+
+    <h3>Versão de produção</h3>
+<pre><code>npm run build
+npm start</code></pre>
+
+    <h2>Testes</h2>
+    <p>
+      Os testes end-to-end usam Playwright e rodam contra o banco configurado no
+      <code>.env.local</code>. Na primeira vez, instale o navegador:
+    </p>
+<pre><code>npx playwright install chromium</code></pre>
+    <p>Depois é só rodar:</p>
+<pre><code>npm run test:e2e          # roda os testes no terminal
+npm run test:e2e:ui       # abre a interface do Playwright
+npm run test:e2e:report   # mostra o último relatório</code></pre>
+
+    <div class="nota">
+      Os testes criam e apagam registros de verdade. Prefira usar um projeto do
+      Supabase separado para testes, e não o de uso real.
+    </div>
+
+    <h2>Problemas comuns</h2>
+    <ul>
+      <li>
+        <strong>Erro 500 nas listas:</strong> confira se as variáveis do
+        <code>.env.local</code> estão certas e reinicie o <code>npm run dev</code>
+        depois de alterá-las.
+      </li>
+      <li>
+        <strong>Listas sempre vazias:</strong> se o RLS (Row Level Security)
+        estiver ativado nas tabelas, crie políticas que liberem leitura e escrita
+        para a chave <code>anon</code>, ou desative o RLS em ambiente de desenvolvimento.
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    Projeto de extensão · SARA
+  </footer>
+</body>
+</html>

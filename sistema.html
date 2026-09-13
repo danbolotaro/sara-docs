@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O sistema · SARA</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-inner">
+      <a class="marca" href="index.html">SARA</a>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="sistema.html" class="ativo">O sistema</a>
+        <a href="instalacao.html">Instalação</a>
+        <a href="diagramas.html">Diagramas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>O sistema</h1>
+    <p class="subtitulo">O que o SARA faz e como ele está organizado.</p>
+
+    <h2>Visão geral</h2>
+    <p>
+      O sistema gira em torno de duas coisas: <strong>pessoas</strong> e
+      <strong>encontros</strong>. Uma pessoa é cadastrada uma vez, com nome,
+      gênero, idade, cidade de origem, história e contatos. Cada vez que alguém
+      se encontra com ela, registra-se um encontro com data, local, pedido de
+      oração e anotações. Uma pessoa pode ter vários encontros; cada encontro
+      pertence a uma única pessoa.
+    </p>
+
+    <h2>Funcionalidades</h2>
+    <h3>Pessoas</h3>
+    <ul>
+      <li>Listar pessoas cadastradas, em ordem alfabética.</li>
+      <li>Cadastrar uma nova pessoa (só o nome é obrigatório).</li>
+      <li>Ver o perfil da pessoa, com o último encontro e o histórico de encontros.</li>
+      <li>Editar e excluir o cadastro.</li>
+    </ul>
+
+    <h3>Encontros</h3>
+    <ul>
+      <li>Listar todos os encontros, do mais recente para o mais antigo.</li>
+      <li>Registrar um encontro vinculado a uma pessoa (pessoa e data são obrigatórias).</li>
+      <li>Ver os detalhes de um encontro: local, pedido de oração e anotações.</li>
+      <li>Editar e excluir o encontro.</li>
+    </ul>
+
+    <h2>Telas</h2>
+    <div class="tabela">
+      <table>
+        <tr><th>Rota</th><th>Tela</th></tr>
+        <tr><td><code>/</code></td><td>Redireciona para <code>/persons</code></td></tr>
+        <tr><td><code>/persons</code></td><td>Lista de pessoas</td></tr>
+        <tr><td><code>/persons/new</code></td><td>Cadastro de pessoa</td></tr>
+        <tr><td><code>/persons/[id]</code></td><td>Perfil da pessoa e seus encontros</td></tr>
+        <tr><td><code>/persons/[id]/more</code></td><td>Dados completos e exclusão</td></tr>
+        <tr><td><code>/persons/[id]/edit</code></td><td>Edição de pessoa</td></tr>
+        <tr><td><code>/encounters</code></td><td>Lista de encontros</td></tr>
+        <tr><td><code>/encounters/new</code></td><td>Registro de encontro</td></tr>
+        <tr><td><code>/encounters/[id]</code></td><td>Detalhes do encontro</td></tr>
+        <tr><td><code>/encounters/[id]/edit</code></td><td>Edição de encontro</td></tr>
+      </table>
+    </div>
+
+    <h2>API</h2>
+    <p>
+      As telas conversam com rotas de API do próprio Next.js
+      (<code>src/app/api</code>), que por sua vez acessam o Supabase. Todas
+      recebem e devolvem JSON.
+    </p>
+    <div class="tabela">
+      <table>
+        <tr><th>Método</th><th>Rota</th><th>Descrição</th></tr>
+        <tr><td>GET</td><td><code>/api/persons</code></td><td>Lista pessoas</td></tr>
+        <tr><td>POST</td><td><code>/api/persons</code></td><td>Cria pessoa</td></tr>
+        <tr><td>GET</td><td><code>/api/persons/:id</code></td><td>Busca uma pessoa</td></tr>
+        <tr><td>PUT</td><td><code>/api/persons/:id</code></td><td>Atualiza pessoa</td></tr>
+        <tr><td>DELETE</td><td><code>/api/persons/:id</code></td><td>Exclui pessoa</td></tr>
+        <tr><td>GET</td><td><code>/api/encounters</code></td><td>Lista encontros (aceita <code>?person_id=</code> para filtrar)</td></tr>
+        <tr><td>POST</td><td><code>/api/encounters</code></td><td>Cria encontro</td></tr>
+        <tr><td>GET</td><td><code>/api/encounters/:id</code></td><td>Busca um encontro</td></tr>
+        <tr><td>PUT</td><td><code>/api/encounters/:id</code></td><td>Atualiza encontro</td></tr>
+        <tr><td>DELETE</td><td><code>/api/encounters/:id</code></td><td>Exclui encontro</td></tr>
+      </table>
+    </div>
+
+    <h3>Regras de validação</h3>
+    <ul>
+      <li>Pessoa precisa ter <code>name</code>.</li>
+      <li><code>gender</code>, quando informado, deve ser <code>Masculino</code> ou <code>Feminino</code>.</li>
+      <li>Encontro precisa de <code>person_id</code> e <code>date</code>, e a pessoa tem que existir.</li>
+    </ul>
+
+    <h2>Dados</h2>
+    <p>Hoje o banco no Supabase tem duas tabelas. A modelagem pensada para o projeto está no <a href="diagramas.html#der">DER</a>.</p>
+
+    <h3><code>person</code></h3>
+    <div class="tabela">
+      <table>
+        <tr><th>Campo</th><th>Tipo</th><th>Observação</th></tr>
+        <tr><td><code>id</code></td><td>uuid</td><td>Chave primária</td></tr>
+        <tr><td><code>name</code></td><td>text</td><td>Obrigatório</td></tr>
+        <tr><td><code>gender</code></td><td>text</td><td>Masculino ou Feminino</td></tr>
+        <tr><td><code>age</code></td><td>integer</td><td></td></tr>
+        <tr><td><code>hometown</code></td><td>text</td><td>Cidade de origem</td></tr>
+        <tr><td><code>story</code></td><td>text</td><td>História da pessoa</td></tr>
+        <tr><td><code>contacts</code></td><td>text</td><td></td></tr>
+        <tr><td><code>created_at</code> / <code>updated_at</code></td><td>timestamptz</td><td></td></tr>
+      </table>
+    </div>
+
+    <h3><code>encounter</code></h3>
+    <div class="tabela">
+      <table>
+        <tr><th>Campo</th><th>Tipo</th><th>Observação</th></tr>
+        <tr><td><code>id</code></td><td>uuid</td><td>Chave primária</td></tr>
+        <tr><td><code>person_id</code></td><td>uuid</td><td>Referência a <code>person.id</code></td></tr>
+        <tr><td><code>date</code></td><td>timestamptz</td><td>Obrigatório</td></tr>
+        <tr><td><code>location</code></td><td>text</td><td></td></tr>
+        <tr><td><code>prayer_request</code></td><td>text</td><td>Pedido de oração</td></tr>
+        <tr><td><code>notes</code></td><td>text</td><td>Anotações</td></tr>
+        <tr><td><code>contacts</code></td><td>text</td><td></td></tr>
+        <tr><td><code>created_at</code> / <code>updated_at</code></td><td>timestamptz</td><td></td></tr>
+      </table>
+    </div>
+
+    <h2>Estrutura do código</h2>
+<pre><code>src/
+├── app/
+│   ├── api/          rotas da API (persons e encounters)
+│   ├── persons/      telas de pessoas
+│   ├── encounters/   telas de encontros
+│   ├── layout.tsx    layout base com o menu
+│   └── globals.css
+├── components/       formulários, cards e cabeçalho
+├── lib/              cliente do Supabase e utilitários
+└── types/            tipos TypeScript (Person, Encounter)
+tests/e2e/            testes com Playwright</code></pre>
+  </main>
+
+  <footer>
+    Projeto de extensão · SARA
+  </footer>
+</body>
+</html>

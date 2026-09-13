@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARA · Documentação</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-inner">
+      <a class="marca" href="index.html">SARA</a>
+      <nav>
+        <a href="index.html" class="ativo">Início</a>
+        <a href="sistema.html">O sistema</a>
+        <a href="instalacao.html">Instalação</a>
+        <a href="diagramas.html">Diagramas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>SARA</h1>
+    <p class="subtitulo">Sistema de Apoio e Registro de Acolhimento</p>
+
+    <p>
+      O SARA é uma aplicação web para registrar pessoas acolhidas e os encontros
+      feitos com cada uma delas. A ideia é simples: manter num só lugar quem é a
+      pessoa, um pouco da sua história, e o histórico de conversas, pedidos de
+      oração e anotações de cada visita.
+    </p>
+
+    <p>
+      Esta página reúne a documentação do projeto: o que o sistema faz, como
+      rodar localmente e os diagramas usados na modelagem.
+    </p>
+
+    <h2>Por onde começar</h2>
+    <ul>
+      <li><a href="sistema.html">O sistema</a> — funcionalidades, telas, API e dados.</li>
+      <li><a href="instalacao.html">Instalação</a> — requisitos, configuração do Supabase e como executar.</li>
+      <li><a href="diagramas.html">Diagramas</a> — caso de uso, DER e diagrama de classes.</li>
+    </ul>
+
+    <h2>Tecnologias</h2>
+    <div class="tabela">
+      <table>
+        <tr><th>Parte</th><th>O que usamos</th></tr>
+        <tr><td>Front-end e API</td><td>Next.js 16 (App Router) com React 19 e TypeScript</td></tr>
+        <tr><td>Banco de dados</td><td>Supabase (PostgreSQL)</td></tr>
+        <tr><td>Notificações na tela</td><td>react-hot-toast</td></tr>
+        <tr><td>Testes</td><td>Playwright (testes end-to-end)</td></tr>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    Projeto de extensão · SARA
+  </footer>
+</body>
+</html>
